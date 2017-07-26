@@ -50,7 +50,7 @@ def domPrinter():
     print(domainslist['name'])
     
 
-grab_devmode=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/40f8115c5f06014a8caf13d644664362/settings/development_mode" -H "X-Auth-Email: se_anderson@windstream.net" -H "X-Auth-Key: 54fbd66aede37f2bd13dd7418de3afcffb4c6" -H "Content-Type: application/json" |sed 's|[{"]||g' | awk -F'[:,]' '{ print $3 " is " $5 }');
+grab_devmode=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/ZONEID/settings/development_mode" -H "X-Auth-Email: EMAIL" -H "X-Auth-Key: APIKEY" -H "Content-Type: application/json" |sed 's|[{"]||g' | awk -F'[:,]' '{ print $3 " is " $5 }');
 
 echo "The current status of ${grab_devmode}";
 
@@ -64,9 +64,9 @@ echo "You selected turn DevMode ${settingsMode}"; echo;
 
  if [[ "$settingsMode" = on ]]; then
     echo "Turning DevMode On";
-    4devmode_ON=$(curl -s -X PATCH "https://api.cloudflare.com/client/v4/zones/40f8115c5f06014a8caf13d644664362/settings/development_mode" \
-    -H "X-Auth-Email: se_anderson@windstream.net" \
-    -H "X-Auth-Key: 54fbd66aede37f2bd13dd7418de3afcffb4c6" \
+    4devmode_ON=$(curl -s -X PATCH "https://api.cloudflare.com/client/v4/zones/ZONEID/settings/development_mode" \
+    -H "X-Auth-Email: EMAIL" \
+    -H "X-Auth-Key: APIKEY" \
     -H "Content-Type: application/json" \
     --data '{"value":"on"}');
     devClean=($(echo "${devmode_ON}" | sed 's|[{"]||g' | awk -F'[:,]' '{ print $3 " is " $5 }'));
@@ -74,9 +74,9 @@ echo "You selected turn DevMode ${settingsMode}"; echo;
 
  elif [[ "$settingsMode" = off ]]; then
     echo "Turning DevMode Off"
-    devmode_OFF=$(curl -s -X PATCH "https://api.cloudflare.com/client/v4/zones/40f8115c5f06014a8caf13d644664362/settings/development_mode" \
-    -H "X-Auth-Email: se_anderson@windstream.net" \
-    -H "X-Auth-Key: 54fbd66aede37f2bd13dd7418de3afcffb4c6" \
+    devmode_OFF=$(curl -s -X PATCH "https://api.cloudflare.com/client/v4/zones/ZONEID/settings/development_mode" \
+    -H "X-Auth-Email: EMAIL" \
+    -H "X-Auth-Key: APIKEY" \
     -H "Content-Type: application/json" \
     --data '{"value":"off"}')
     devClean=($(echo "${devmode_OFF}" | sed 's|[{"]||g' | awk -F'[:,]' '{ print $3 " is " $5 }'));
