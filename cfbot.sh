@@ -22,32 +22,26 @@ echo "==============================================================";
 echo;
 
 # This function prints current domains on the account and gives the user
-# a choice for which one. This will be run through python to get the
-# required information.
-# This part is still under construction at this time. 
+# a choice for which one. 
 
-cat << EOF > zoneGet.py
-#!/usr/local/bin/env python3.5 # Replace with your version of python
-import requests
-import json
-
-email = "your@email.com"
-authKey = "Cloudflare API Key"
-passed = { "X-Auth-Email": email,
-            "X-Auth-Key": authKey,
-            "Content-Type": "application/json"
+domainsList=($(curl -s -X GET "https://api.cloudflare.com/client/v4/zones" 
+                    -H "X-Auth-Email: EMAIL" 
+                    -H "X-Auth-Key: APIKEY" 
+                    -H "Content-Type: application/json" | 
+                    grep -Po '{*"name":"(.*?)"' |  awk -F'[":]' '/\.[a-z].*/ { print $5 }'))
+                    
+domainRequest() 
+{
+            C=1
+            for NUM in "${domainsList[@]}"
+            do 
+               printf "%2d. %-20s\n" "$C" "$NUM"
+               ((C=C+1))
+            done
 }
 
-print("Retrieving names now")
-domainGrab = requests.get("https://api.cloudflare.com/client/v4/zones", headers=passed)
-domainsInfo = json.loads(domainGrab.text)
-
-def domPrinter():
-
-    print("Domains: ")
-    for domainslist in domainsInfo['result']:
-    print(domainslist['name'])
-    
+printf "Choose which of the following domains: \n%-20s\n" "$(domainRequest)"
+read domainNumber
 
 grab_devmode=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/ZONEID/settings/development_mode" -H "X-Auth-Email: EMAIL" -H "X-Auth-Key: APIKEY" -H "Content-Type: application/json" |sed 's|[{"]||g' | awk -F'[:,]' '{ print $3 " is " $5 }');
 
