@@ -57,7 +57,7 @@ echo "You selected turn DevMode ${settingsMode}"; echo;
 
  if [[ "$settingsMode" = on ]]; then
     echo "Turning DevMode On";
-    4devmode_ON=$(curl -s -X PATCH "https://api.cloudflare.com/client/v4/zones/ZONEID/settings/development_mode" \
+    devmode_ON=$(curl -s -X PATCH "https://api.cloudflare.com/client/v4/zones/ZONEID/settings/development_mode" \
     -H "X-Auth-Email: EMAIL" \
     -H "X-Auth-Key: APIKEY" \
     -H "Content-Type: application/json" \
