@@ -8,7 +8,7 @@
 #####################################################
 #         -+- Version 0.1 - April 2017 -+-          #
 # Allows user to turn on or off developer mode for  #
-# the website thespenceitgroup.com.                 #
+# a domain name in Cloudflare.                      #
 #                                                   #
 #         -+- Version 0.2 - July 2017 -+-           #
 # Users now see which domains they have in their    #
